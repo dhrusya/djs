@@ -5,12 +5,7 @@ var myQuery, dj, djob;
 (function() {
 
      dj = function(selector) {
-      var djob=this;
-  		if(typeof(selector)=='object'){
-        djob = [selector];
-      }else{
-        djob = document.querySelectorAll(selector);
-      }
+      var djob=typeof(selector)=='object'?[selector]:document.querySelectorAll(selector);
       return new djs(djob);
     };
 
@@ -22,61 +17,61 @@ var myQuery, dj, djob;
 			empty:function(){ //makes element empty
 				doExec(ob,function(aob){ aob.innerHTML="";});
 			},
+      hide:function(){
+        doExec(ob,function(aob){ aob.style.display="none";});
+      },
+      show:function(){
+        doExec(ob,function(aob){ aob.style.display="block";});
+      },
 			html:function(str){ //gets or sets innerHTML
 				if(str)	doExec(ob,function(aob){ aob.innerHTML=str;});
 				else return doExec(ob,function(aob){ return aob.innerHTML;},true);
 			},
-			hide:function(){
-				doExec(ob,function(aob){ aob.style.display="none";});
-			},
-			show:function(){
-				doExec(ob,function(aob){ aob.style.display="block";});
-			},
-      on:function(type,callback){
+      on:function(type,callback){ //event handling
         doExec(ob,function(aob){ aob['on'+type]=callback;});
       },
-      toString:function(item){
-        return this.selector;
-      },
       each:function(callback){
-        // doExec(ob, action);
         ob.forEach.call(ob, function(item, i){
-            console.log(i + item);
             callback(item, i);
-            // doExec(item, action);
         });
       },
-      // model:function(){
-      //   alert("Bingo");
-      // },
+
+
 		};
 	};
 
-
-
-
-}());
-
-// dj.sample = function() {
-//         alert("Nee tata parri");
-//         //do something here
-//         //return that; //if you want to chain.
-// };
-
-	function doExec(ob, callback,returnFlag) {
+  var doExec=function(ob, callback,returnFlag) {
 		var ret="";
 		for (var i = 0; i < ob.length; i++){
 			if (returnFlag) ret+=callback(ob[i]);
 			else callback(ob[i]);
 		}
 		return ret;
-	}
+	};
+
+
+}());
+
+dj.sample = function() {
+        alert("Nee tata parri");
+        //do something here
+        //return that; //if you want to chain.
+};
+
+	// function doExec(ob, callback,returnFlag) {
+	// 	var ret="";
+	// 	for (var i = 0; i < ob.length; i++){
+	// 		if (returnFlag) ret+=callback(ob[i]);
+	// 		else callback(ob[i]);
+	// 	}
+	// 	return ret;
+	// }
 
 
 	function is_array(input){
     	return typeof(input)=='object'&&(input instanceof Array);
  	}
-[]
+
 
 
 //AJAX

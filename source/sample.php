@@ -38,7 +38,8 @@ Click here: <input type="text" class="color" value="">
 <input type="button" value="hide this" onclick="dj('#id1').hide()" />
 
 <input type="button" value="show this" onclick="dj('#id1').show()" />
-<input type="button" value="Extension" onclick="vgEvent()" />
+<input type="button" value="Extension" onclick="dj.sample()" />
+<input type="button" value="Extension function" onclick="dj.model()" />
 
 <script type="text/javascript">
   function vgTxt(){
@@ -54,6 +55,10 @@ Click here: <input type="text" class="color" value="">
       //  e.innerHTML="Jamma Cekka";
       dj(e).html("Laskutapa");
     });
+
+    // dj.model=function(){
+    //   alert('hurreeeyyyy');
+    // }
 
 </script>
 </body>
