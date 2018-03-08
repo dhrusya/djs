@@ -19,7 +19,7 @@
 
 <body>
 
-<div id="id1" class="a">This is sample text</div>
+<div id="id1" class="a">This is sample text with id id1</div>
 
 <div class="a pp1">This is sample text PP1</div>
 
@@ -40,6 +40,9 @@ Click here: <input type="text" class="color" value="">
 <input type="button" value="show this" onclick="dj('#id1').show()" />
 <input type="button" value="Extension" onclick="dj.sample()" />
 <input type="button" value="Extension function" onclick="dj.model()" />
+<input type="button" value="Css function" onclick="dj('#id1').css('font-size','36px')" />
+<input type="button" value="Insert after" onclick="dj('#id1').after('<p>Paragraph After</p>')" />
+<input type="button" value="Insert after" onclick="dj('#id1').before('<p>Paragraph Before</p>')" />
 
 <script type="text/javascript">
   function vgTxt(){

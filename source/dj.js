@@ -27,6 +27,74 @@ var myQuery, dj, djob;
 				if(str)	doExec(ob,function(aob){ aob.innerHTML=str;});
 				else return doExec(ob,function(aob){ return aob.innerHTML;},true);
 			},
+      append:function(str){
+        // doExec(ob,function(aob){ aob.innerHTML=aob.innerHTML+str;});
+        doExec(ob,function(aob){ aob.insertAdjacentHTML('beforeend', str);});
+      },
+      prepend:function(str){
+        doExec(ob,function(aob){ aob.insertAdjacentHTML('afterbegin', str);});
+        // doExec(ob,function(aob){ aob.innerHTML=str+aob.innerHTML;});
+      },
+      createNode:function(el,str){
+        var elm = document.createElement(el);
+        if(str) elm.innerHTML = str;
+        return elm.firstChild;
+      },
+      cssTojs: function(name){
+          var split = name.split("-");
+          var output = "";
+          for(var i = 0; i < split.length; i++)
+          {
+              if (i > 0 && split[i].length > 0 && !(i == 1 && split[i] == "ms"))
+              {
+                  split[i] = split[i].substr(0, 1).toUpperCase() + split[i].substr(1);
+              }
+              output += split[i];
+          }
+          return output;
+      },
+      jsTocss: function(name){
+          return name.replace(/([A-Z])/g, "-$1").toLowerCase();
+      },
+      after:function(str){
+        doExec(ob,function(aob){ aob.insertAdjacentHTML('afterend', str);});
+      },
+      before:function(str){
+        doExec(ob,function(aob){ aob.insertAdjacentHTML('beforebegin', str);});
+      },
+      addNodeAfter:function(el,html){
+        var node=this.createNode(el,html);
+        doExec(ob,function(aob){ aob.parentNode.insertBefore(node, aob.nextSibling);});
+      },
+      addNodeBefore:function(el,html){
+        var node=this.createNode(el,html);
+        doExec(ob,function(aob){ aob.parentNode.insertBefore(node, aob);});
+      },
+      addClass:function(cls){
+
+      },
+      removeClass:function(cls){
+
+      },
+      addAttr:function(attr, value){ //adds or sets or resets attribute
+
+      },
+      removeAttr:function(attr){
+
+      },
+      css: function(attr, val){ //check attr is json object with multiple css props 
+        attr=attr.indexOf("-")?this.cssTojs(attr):attr;
+        if(val) doExec(ob,function(aob){ aob.style[attr]=val;});
+        else return doExec(ob,function(aob){ return aob.style[attr];});
+      },
+
+      // val, toggle, width, height,
+      ajax:function(url, method, data, callback){
+
+      },
+      parseJSON:function(){
+
+      },
       on:function(type,callback){ //event handling
         doExec(ob,function(aob){ aob['on'+type]=callback;});
       },
@@ -170,10 +238,17 @@ function dj_prepareFields(flds){
 			case 'textarea':
 				data+=dj_getFProps(flds[f],"<dd><textarea ","></textarea></dd></dl>");
 				break;
-			case "select":
-				data+=dj_prepareSelect(flds[f]);
+        case "select":
+  				data+=dj_prepareSelect(flds[f]);
+  				break;
+  			case "date":
+  				if (IsAttributeSupported("input", "placeholder")) {
+  					data+=dj_getFProps(flds[f],'<dd><input type="date" ', '/></dd></dl>');
+  				}else{
+  					data+=dj_getFProps(flds[f],'<dd><input type="text" ', '/></dd></dl>');
+  				}
+  				break;
 
-				break;
 		}
 
 	}
@@ -231,4 +306,20 @@ function dj_getOptions(arr,id){
 	}
 	if(id) document.getElementById(id).innerHTML=data;
 	return data;
+}
+
+function IsAttributeSupported(tagName, attrName) {
+    var val = false;
+    // Create element
+    var input = document.createElement(tagName);
+    // Check if attribute (attrName)
+    // attribute exists
+    if (attrName in input) {
+        val = true;
+    }
+    // Delete "input" variable to
+    // clear up its resources
+    delete input;
+    // Return detected value
+    return val;
 }
